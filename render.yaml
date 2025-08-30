@@ -1,0 +1,47 @@
+services:
+  - type: web
+    name: donations-app
+    env: docker
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8080
+      - key: PUBLIC_BASE_URL
+        value: https://donations-app.onrender.com
+      - key: CORS_ORIGIN
+        value: https://donations-app.onrender.com
+      # Stripe
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: DEFAULT_CURRENCY
+        value: usd
+      # OpenAI
+      - key: OPENAI_API_KEY
+        sync: false
+      # Email (SMTP)
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_SECURE
+        value: "false"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: EMAIL_FROM
+        value: "Your Org <donotreply@yourorg.org>"
+      # Optional CMS (Sanity)
+      - key: SANITY_PROJECT_ID
+        sync: false
+      - key: SANITY_DATASET
+        value: production
+      - key: SANITY_API_VERSION
+        value: 2023-10-10
+      - key: SANITY_TOKEN
+        sync: false
