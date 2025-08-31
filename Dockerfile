@@ -1,23 +1,32 @@
 # --- Frontend build stage ---
 FROM node:18 AS frontend
 WORKDIR /app/frontend
+
+# Copy package.json first and install dependencies
 COPY frontend/package*.json ./
 RUN npm install
+
+
 COPY frontend/ ./
+
+RUN chmod +x node_modules/.bin/vite
+
+# Build frontend
 RUN npm run build
+
 
 # --- Backend stage ---
 FROM node:18 AS backend
 WORKDIR /app
 
-# Install backend deps
+# Copy backend dependencies
 COPY backend/package*.json ./backend/
 RUN cd backend && npm install
 
-# Copy backend source
+# Copy backend code
 COPY backend ./backend
 
-# Copy built frontend into backend/public
+# Copy frontend build into backend's public folder
 RUN mkdir -p backend/public
 COPY --from=frontend /app/frontend/dist ./backend/public
 
