@@ -1,10 +1,8 @@
 # --- Frontend build stage ---
 FROM node:18 AS frontend
-WORKDIR /frontend
-
+WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm install
-
 COPY frontend/ ./
 RUN npm run build
 
@@ -12,20 +10,17 @@ RUN npm run build
 FROM node:18 AS backend
 WORKDIR /app
 
-# Install backend dependencies
-COPY backend/package*.json ./
-RUN npm install
+# Install backend deps
+COPY backend/package*.json ./backend/
+RUN cd backend && npm install
 
-# Copy backend source code
-COPY backend/ ./
+# Copy backend source
+COPY backend ./backend
 
-# Copy frontend build into /app/public
-RUN mkdir -p public
-COPY --from=frontend /frontend/dist ./public
+# Copy built frontend into backend/public
+RUN mkdir -p backend/public
+COPY --from=frontend /app/frontend/dist ./backend/public
 
-# Expose Render PORT
-ENV PORT=8080
+WORKDIR /app/backend
 EXPOSE 8080
-
-# Start backend server
 CMD ["node", "server.js"]
