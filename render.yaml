@@ -1,10 +1,9 @@
 services:
   - type: web
     name: donations-app
-    env: node
+    env: docker
     plan: free
-    buildCommand: docker build -t donations-app .
-    startCommand: docker run -p 8080:8080 donations-app
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: PAYPAL_CLIENT_ID
         sync: false
