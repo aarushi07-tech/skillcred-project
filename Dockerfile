@@ -6,13 +6,11 @@ WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm install
 
-
+# Copy rest of the frontend code
 COPY frontend/ ./
 
-RUN chmod +x node_modules/.bin/vite
-
-# Build frontend
-RUN npm run build
+# Build frontend using npx
+RUN npx vite build
 
 
 # --- Backend stage ---
