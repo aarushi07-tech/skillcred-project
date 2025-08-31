@@ -3,7 +3,6 @@ services:
     name: donations-app
     env: docker
     plan: free
-    dockerfilePath: ./Dockerfile
     envVars:
       - key: PAYPAL_CLIENT_ID
         sync: false
